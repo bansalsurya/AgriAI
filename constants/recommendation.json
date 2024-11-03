@@ -1,0 +1,20 @@
+[
+    {
+        "crop": "Corn",
+        "type": "Grains/Cereals",
+        "score": "80",
+        "reason": "Corn is a popular grain in many regions of the world and can thrive in warm temperatures."
+    },
+    {
+        "crop": "Wheat",
+        "type": "Grains/Cereals",
+        "score": "75",
+        "reason": "Wheat is suitable for a range of climates and has good market demand."
+    },
+    {
+        "crop": "Soybean",
+        "type": "Legumes",
+        "score": "85",
+        "reason": "Soybeans are nitrogen-fixing and improve soil health, making them a valuable crop."
+    }
+]

@@ -1,0 +1,27 @@
+{
+    "temperature": {
+      "value": 30.07,
+      "unit": "°C",
+      "classification": "Hot"
+    },
+    "humidity": {
+      "value": 28,
+      "unit": "%",
+      "classification": "Dry"
+    },
+    "solar_radiation": {
+      "value": 877.53,
+      "unit": "W/m²",
+      "classification": "Very High"
+    },
+    "wind": {
+      "speed": 1.54,
+      "unit": "m/s",
+      "dust_storm_probability": "Low"
+    },
+    "environmental_risks": [
+      "High evaporation rate",
+      "High solar radiation stress"
+    ]
+  }
+  

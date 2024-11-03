@@ -1,0 +1,12 @@
+[
+    {
+      "crop": "Rice",
+      "acres": 100.0,
+      "yieldPerAcre": 1162.66,
+      "expectedYield": 1162.66,
+      "pricePerKg": 23.0,
+      "totalIncome": 26741.26
+    }
+
+  ]
+  

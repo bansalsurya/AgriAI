@@ -1,0 +1,56 @@
+{
+    "composition": {
+      "primary_type": "Moderate climate soils",
+      "texture": "Loamy",
+      "particle_size": "Mixed",
+      "structure": "Granular to blocky",
+      "color": "Brown to dark brown"
+    },
+    "physical": {
+      "bulk_density": "Medium",
+      "porosity": "Medium",
+      "compaction": "Medium",
+      "texture_class": "Loam",
+      "structure_stability": "Moderate",
+      "organic_matter_content": "Medium (2-3%)"
+    },
+    "chemical": {
+      "ph": {
+        "value_range": "6.5-7.5",
+        "classification": "Neutral"
+      },
+      "salt_content": {
+        "level": "Medium",
+        "conductivity": "2-3 dS/m"
+      },
+      "cation_exchange_capacity": "Medium",
+      "base_saturation": "Medium",
+      "calcium_carbonate": "Medium"
+    },
+    "water": {
+      "water_retention": "Medium",
+      "drainage": "Good",
+      "infiltration_rate": "Medium",
+      "field_capacity": "Medium",
+      "wilting_point": "Medium",
+      "available_water_capacity": "Medium"
+    },
+    "fertility": {
+      "fertility_level": "Medium",
+      "nutrient_availability": {
+        "nitrogen": "Medium",
+        "phosphorus": "Medium",
+        "potassium": "Medium",
+        "micronutrients": "Generally adequate"
+      },
+      "organic_matter_quality": "Moderate",
+      "biological_activity": "Medium",
+      "management_requirements": [
+        "Regular soil testing",
+        "Balanced fertilization",
+        "Organic matter maintenance",
+        "Conservation practices"
+      ]
+    }
+  }
+  
