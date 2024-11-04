@@ -168,8 +168,15 @@ You'll need API keys for:
 
 ```streamlit run final.py ```
 
+### LLM Server 
 
-### Application Run 
+1. Start the server
+
+   ```bash
+    python3 api/main.py
+   ```
+
+### Mobile Application Run 
 1. Install dependencies
 
    ```bash
