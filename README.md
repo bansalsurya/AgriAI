@@ -167,6 +167,9 @@ You'll need API keys for:
 5. Run the application
 
 ```streamlit run final.py ```
+
+
+### Application Run 
 1. Install dependencies
 
    ```bash
