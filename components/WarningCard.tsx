@@ -1,17 +1,31 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, StyleSheet, Animated } from 'react-native';
 
 interface WarningCardProps {
     climateType: string;
     risks: string[];
     scheduleNotification: any;
+    advisory: any
 }
 
-const WarningCard: React.FC<WarningCardProps> = ({ climateType, risks, scheduleNotification }) => {
+const WarningCard: React.FC<WarningCardProps> = ({ climateType, risks, scheduleNotification, advisory }) => {
     const animationValue = useRef(new Animated.Value(0)).current;
-    useEffect(()=>{
-        scheduleNotification("High temperature alert! Stay hydrated.")
-    })
+    const [displayedRisks, setDisplayedRisks] = useState<string[]>([])
+    useEffect(() => {
+        const advisoryRisks = advisory?.risks || [];
+        if (advisoryRisks.length > 0) {
+            try {
+                setDisplayedRisks(advisoryRisks)
+                scheduleNotification(advisoryRisks[0]);
+            } catch (error) {
+                console.error("Failed to schedule notification:", error);
+            }
+        } else {
+            setDisplayedRisks(risks)
+            console.log("No risks found in advisory.");
+        }
+    }, [advisory, risks]);
+
     // Function to handle the flashing effect
     const startFlashing = () => {
         Animated.loop(
@@ -42,9 +56,11 @@ const WarningCard: React.FC<WarningCardProps> = ({ climateType, risks, scheduleN
 
     return (
         <View style={styles.card}>
-            <Text style={styles.climateType}>Climate Type: {climateType}</Text>
+            <Text style={styles.climateType}>
+            {`Climate Type: ${advisory?.climate_type || climateType}`}
+            </Text>
             <Text style={styles.risksTitle}>⚠️ Environmental Risks:</Text>
-            {risks.map((risk, index) => (
+            {displayedRisks.map((risk, index) => (
                 <View key={index} style={styles.riskItemContainer}>
                     <Animated.View style={[styles.flashingCircle, { opacity }]} />
                     <Text style={styles.riskItem}>{risk}</Text>

@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import weatherData from '../constants/weatherData.json'; // Adjust the path as necessary
+import weatherData from '../constants/weatherData.json';
 
-const ForecastCard: React.FC = () => {
+interface ForecastCardProps {
+    weatherAnalysis: any
+}
+const ForecastCard: React.FC<ForecastCardProps> =({ weatherAnalysis })=> {
     const [data, setData] = useState<any>(null);
 
     useEffect(() => {
-        // Simulate fetching data from JSON file
-        setData(weatherData);
-    }, []);
+        if(weatherAnalysis?.current){
+            setData(weatherAnalysis?.current);
+        }else{
+            setData(weatherData);
+        }
+    }, [weatherAnalysis]);
 
     if (!data) {
-        return null; // You can return a loader here if necessary
+        return null;
     }
 
     return (
@@ -46,15 +52,15 @@ const ForecastCard: React.FC = () => {
                     {data.wind.speed} {data.wind.unit} - Dust Storm Probability: {data.wind.dust_storm_probability}
                 </Text>
             </View>
+            <View style={styles.row}>
+                <MaterialCommunityIcons name="alert" size={24} color="red" />
+                <Text style={styles.infoText}>
+                    Risks: {data?.environmental_risks && data?.environmental_risks.length > 0 
+                        ? data?.environmental_risks.join(', ') 
+                        : 'No Risks'}
+                </Text>
+            </View>
 
-            {data.environmental_risks.length > 0 && (
-                <View style={styles.row}>
-                    <MaterialCommunityIcons name="alert" size={24} color="red" />
-                    <Text style={styles.infoText}>
-                        Risks: {data.environmental_risks.join(', ')}
-                    </Text>
-                </View>
-            )}
         </View>
     );
 };

@@ -5,18 +5,18 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import yieldData from '../constants/yieldData.json'; // Import the JSON file
 
 interface CropInput {
-  cropName: string;
-  acres: number;
+  crop: string;
+  land: number;
 }
 
 const YieldPredictor: React.FC = () => {
-  const [crops, setCrops] = useState<CropInput[]>([{ cropName: '', acres: 1 }]);
+  const [crops, setCrops] = useState<CropInput[]>([{ crop: '', land: 1 }]);
   const [results, setResults] = useState<any[]>([]);
   const [totalIncome, setTotalIncome] = useState(0);
 
   const handleAddRow = () => {
     if (crops.length < 5) {
-      setCrops([...crops, { cropName: '', acres: 1 }]);
+      setCrops([...crops, { crop: '', land: 1 }]);
     } else {
       Alert.alert('Limit Reached', 'You can only add up to 5 crops.');
     }
@@ -29,34 +29,51 @@ const YieldPredictor: React.FC = () => {
 
   const handleInputChange = (index: number, field: string, value: string) => {
     const updatedCrops = [...crops];
-    if (field === 'cropName') {
-      updatedCrops[index].cropName = value;
-    } else if (field === 'acres') {
-      updatedCrops[index].acres = parseInt(value) || 1;
+    if (field === 'crop') {
+      updatedCrops[index].crop = value;
+    } else if (field === 'land') {
+      updatedCrops[index].land = parseInt(value) || 1;
     }
     setCrops(updatedCrops);
+    setResults([])
+    setTotalIncome(0)
   };
 
-  const calculateYield = () => {
-    const yieldDataProcessed = crops.map((crop, index) => {
-      // Use sample data for yield calculation
-      const sampleData = yieldData[index % yieldData.length]; // Loop through sample data
+  const calculateYield = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/yield-prediction/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(crops),
+      });
       
-      const expectedYield = sampleData.yieldPerAcre * crop.acres;
-      const totalIncome = expectedYield * sampleData.pricePerKg;
-
-      return {
-        crop: crop.cropName || sampleData.crop,
-        acres: crop.acres,
-        yieldPerAcre: sampleData.yieldPerAcre,
-        expectedYield,
-        pricePerKg: sampleData.pricePerKg,
-        totalIncome,
-      };
-    });
-
-    setResults(yieldDataProcessed);
-    setTotalIncome(yieldDataProcessed.reduce((sum, crop) => sum + crop.totalIncome, 0));
+      const data = await response.json();
+  
+      // Process the data and calculate yield information
+      const yieldDataProcessed = data.map((crop) => {
+        const expectedYield = crop.yield_per_acre * crop.acres;
+        const totalIncome = expectedYield * crop.price_per_kg;
+  
+        return {
+          crop: crop.crop, // Ensure this matches your API response (e.g., crop instead of cropName)
+          acres: crop.acres,
+          yieldPerAcre: crop.yield_per_acre,
+          expectedYield,
+          pricePerKg: crop.price_per_kg,
+          totalIncome,
+        };
+      });
+  
+      setResults(yieldDataProcessed);
+  
+      // Calculate total income
+      setTotalIncome(yieldDataProcessed.reduce((sum, crop) => sum + crop.totalIncome, 0));
+  
+    }catch (error) {
+    console.error('Error fetching Yield:', error);
+  }
   };
 
   const downloadPDF = async () => {
@@ -101,15 +118,15 @@ const YieldPredictor: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      {crops.map((crop, index) => (
+      {crops.map((cr, index) => (
         <View key={index} style={styles.row}>
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Crop</Text>
             <TextInput
               style={styles.input}
               placeholder="Enter Crop Name"
-              value={crop.cropName}
-              onChangeText={(text) => handleInputChange(index, 'cropName', text)}
+              value={cr.crop}
+              onChangeText={(text) => handleInputChange(index, 'crop', text)}
             />
           </View>
           <View style={styles.inputContainer}>
@@ -118,8 +135,8 @@ const YieldPredictor: React.FC = () => {
               style={styles.acresInput}
               placeholder="1"
               keyboardType="numeric"
-              value={crop.acres.toString()}
-              onChangeText={(text) => handleInputChange(index, 'acres', text)}
+              value={cr.land.toString()}
+              onChangeText={(text) => handleInputChange(index, 'land', text)}
             />
           </View>
           <TouchableOpacity onPress={() => handleRemoveRow(index)} style={styles.removeButton}>

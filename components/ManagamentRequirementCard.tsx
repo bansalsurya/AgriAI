@@ -2,12 +2,24 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-const ManagementRequirementsCard = ({ requirements }) => {
+const ManagementRequirementsCard = ({ requirements, advisory }) => {
+  const [managementRequirement, setManagementRequirement] = React.useState([])
+
+  React.useEffect(()=>{
+    if(advisory && advisory.length > 0){
+      setManagementRequirement(advisory)
+    }else{
+      console.log("No management requirements found")
+      setManagementRequirement(requirements)
+    }
+  },[])
+
+
   return (
     <View style={styles.cardContainer}>
       <Text style={styles.title}>Soil Management Requirements</Text>
       <View style={styles.requirementsList}>
-        {requirements.map((item, index) => (
+        {managementRequirement.map((item, index) => (
           <View key={index} style={styles.requirementItem}>
             <MaterialCommunityIcons name="check-circle" color="#4CAF50" size={16} style={styles.icon} />
             <Text style={styles.requirementText}>{item}</Text>

@@ -8,6 +8,7 @@ import axios from 'axios';
 const Main: React.FC<any> = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [recommendations, setRecommendations] = useState([]);
+  const [advisory, setAdvisory] = useState(null)
   const [country, setCountry] = useState<string>('');
   const [state, setState] = useState<string>('');
   const [area, setArea] = useState<string>('');
@@ -60,18 +61,27 @@ const Main: React.FC<any> = ({ navigation }) => {
             }),
         });
         const data = await response.json();
-        console.log(data)
-        setRecommendations(data);
+        if(data["advisory"]){
+          console.log("*****Avisory Found*******")
+          setAdvisory(data["advisory"])
+        }
+
+        if(data["recommendations"]){
+          console.log("*******Recommendation Found*******")
+          setRecommendations(data["recommendations"]);
+        }
+        
         setModalVisible(false);
       
-      // Navigate to the Home screen after setting the recommendations
+      // Navigate to the Home screen after setting the recommendations and advisory
       navigation.navigate("Home", {
         address: {
           country,
           state,
           area,
         },
-        recommendations: recommendations
+        recommendations: data["recommendations"] || [],
+        advisory: data["advisory"] || null
       });
       
     } catch (error) {

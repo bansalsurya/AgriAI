@@ -9,7 +9,7 @@ import ManagementRequirementsCard from './ManagamentRequirementCard';
 import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
 
-const WeatherAnalysis: React.FC = () => {
+const WeatherAnalysis: React.FC = (advisory: any) => {
     const [climateType, setClimateType] = useState<string>('');
     const [risks, setRisks] = useState<string[]>([]);
     useEffect(() => {
@@ -50,14 +50,13 @@ const WeatherAnalysis: React.FC = () => {
         setClimateType(environmentalRisksData.climate_type);
         setRisks(environmentalRisksData.risks);
     }, []);
-
     return (
         <View style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollView}>
-                <WarningCard climateType={climateType} risks={risks} scheduleNotification={scheduleNotification} />
-                <ForecastCard />
-                <SoilSummaryCard soilData={soilData} />
-                <ManagementRequirementsCard requirements={soilData.fertility.management_requirements} />
+                <WarningCard climateType={climateType} risks={risks} scheduleNotification={scheduleNotification} advisory={advisory?.advisory?.environmental_conditions} />
+                <ForecastCard weatherAnalysis={advisory?.advisory?.weather_analysis} />
+                <SoilSummaryCard data={soilData} advisory={advisory?.advisory?.soil_analysis}/>
+                <ManagementRequirementsCard requirements={soilData?.detailed_characteristics?.fertility_indicators?.management_requirements} advisory={advisory?.advisory?.soil_analysis?.detailed_characteristics?.fertility_indicators?.management_requirements}/>
             </ScrollView>
         </View>
     );

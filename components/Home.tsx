@@ -13,11 +13,10 @@ const Tab = createBottomTabNavigator();
 
 
 const Home: React.FC<{ route: any }> = ({ route }) => {
-  const { address, recommendations } = route.params;
+  const { address, recommendations, advisory } = route.params;
   const [recc, setRecc] = useState()
   
   useEffect(()=>{
-    console.log(recommendations)
     setRecc(recommendations)
   },[route])
 
@@ -45,7 +44,7 @@ const Home: React.FC<{ route: any }> = ({ route }) => {
     >
       <Tab.Screen 
         name="Weather Analysis" 
-        children={() => <WeatherAnalysis />} 
+        children={() => <WeatherAnalysis advisory={advisory} />} 
       />
       <Tab.Screen 
         name="Crop Recommendations" 
