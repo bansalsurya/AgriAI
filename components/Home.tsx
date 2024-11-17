@@ -29,11 +29,11 @@ const Home: React.FC<{ route: any }> = ({ route }) => {
           let iconName;
 
           if (route.name === 'Weather Analysis') {
-            iconName = focused ? 'weather-sunny' : 'weather-sunny-outline';
+            iconName = focused ? 'weather-sunny' : 'weather-sunny';
           } else if (route.name === 'Crop Recommendations') {
             iconName = focused ? 'seed-outline' : 'seed';
           } else if (route.name === 'Yield Predictor') {
-            iconName = focused ? 'chart-bar' : 'chart-bar-outline';
+            iconName = focused ? 'chart-bar' : 'chart-bar';
           }
 
           return <MaterialCommunityIcons name={iconName} size={size} color={color} />;

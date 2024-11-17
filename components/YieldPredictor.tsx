@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Alert, TouchableOpacity, Text, FlatList } from 'react-native';
+import { View, TextInput, StyleSheet, Alert, TouchableOpacity, Text, FlatList } from 'react-native';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import yieldData from '../constants/yieldData.json'; // Import the JSON file
@@ -25,6 +25,8 @@ const YieldPredictor: React.FC = () => {
   const handleRemoveRow = (index: number) => {
     const updatedCrops = crops.filter((_, i) => i !== index);
     setCrops(updatedCrops);
+    setResults([])
+    setTotalIncome(0)
   };
 
   const handleInputChange = (index: number, field: string, value: string) => {
@@ -53,15 +55,15 @@ const YieldPredictor: React.FC = () => {
   
       // Process the data and calculate yield information
       const yieldDataProcessed = data.map((crop) => {
-        const expectedYield = crop.yield_per_acre * crop.acres;
-        const totalIncome = expectedYield * crop.price_per_kg;
+        const expectedYield = crop?.yield_per_acre ? crop?.yield_per_acre * crop.acres : 0;
+        const totalIncome = crop?.price_per_kg ? expectedYield * crop?.price_per_kg : 0;
   
         return {
-          crop: crop.crop, // Ensure this matches your API response (e.g., crop instead of cropName)
+          crop: crop?.crop , // Ensure this matches your API response (e.g., crop instead of cropName)
           acres: crop.acres,
-          yieldPerAcre: crop.yield_per_acre,
-          expectedYield,
-          pricePerKg: crop.price_per_kg,
+          yieldPerAcre: crop?.yield_per_acre ? crop?.yield_per_acre : 0,
+          expectedYield:  expectedYield,
+          pricePerKg: crop?.price_per_kg ? crop?.price_per_kg : 0,
           totalIncome,
         };
       });

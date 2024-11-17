@@ -40,7 +40,7 @@ const ForecastCard: React.FC<ForecastCardProps> =({ weatherAnalysis })=> {
             </View>
 
             <View style={styles.row}>
-                <MaterialCommunityIcons name="weather-solar" size={24} color="yellow" />
+                <MaterialCommunityIcons name="weather-sunny-alert" size={24} color="yellow" />
                 <Text style={styles.infoText}>
                     {data.solar_radiation.value.toFixed(2)} {data.solar_radiation.unit} ({data.solar_radiation.classification})
                 </Text>
